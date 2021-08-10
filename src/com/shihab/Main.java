@@ -1,5 +1,7 @@
 package com.shihab;
 
+import com.shihab.time_complexity.TimeComplexity;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,10 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            twoDimensionArrayInTabularFormat();
+            //twoDimensionArrayInTabularFormat();
+            //TimeComplexity.basic();
+            //TimeComplexity.timeComplexityOfN();
+            TimeComplexity.timeComplexityOfN2();
         } catch (Exception e) {
             e.printStackTrace();
         }
