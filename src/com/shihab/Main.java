@@ -1,6 +1,6 @@
 package com.shihab;
 
-import com.shihab.time_complexity.TimeComplexity;
+import com.shihab.complexity.TimeComplexity;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ public class Main {
     public static void main(String[] args) {
         try {
             //twoDimensionArrayInTabularFormat();
-            //TimeComplexity.basic();
             //TimeComplexity.timeComplexityOfN();
             TimeComplexity.timeComplexityOfN2();
         } catch (Exception e) {

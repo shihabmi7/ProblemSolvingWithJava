@@ -1,4 +1,4 @@
-package com.shihab.time_complexity;
+package com.shihab.complexity;
 
 import java.util.Scanner;
 
