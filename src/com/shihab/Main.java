@@ -13,7 +13,7 @@ public class Main {
         try {
             //twoDimensionArrayInTabularFormat();
             //TimeComplexity.timeComplexityOfN();
-            TimeComplexity.timeComplexityOfN2();
+            TimeComplexity.timeComplexityOfN3();
         } catch (Exception e) {
             e.printStackTrace();
         }

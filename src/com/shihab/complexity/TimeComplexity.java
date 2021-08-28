@@ -45,4 +45,21 @@ public class TimeComplexity {
         System.out.println("N: " + n + " Count: " + count);
     }
 
+    /**
+     * Time Complexity O(n^3)
+     */
+    public static void timeComplexityOfN3() {
+        int n = 100, count = 0;
+        Scanner sc = new Scanner(System.in);
+        //n = Integer.parseInt(sc.nextLine());
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                for (int k = 0; k < n; k++) {
+                    count = count + 1;
+                }
+            }
+        }
+        System.out.println("N: " + n + " Count: " + count);
+    }
+
 }
