@@ -2,6 +2,10 @@ package com.shihab.codility;
 
 public class MaxCounter {
 
+    /** Codility Max Counters Java solution
+     *  https://www.youtube.com/watch?v=LBfyoSCcfVw&ab_channel=DaveKirkwood
+     *  O ( N + M )
+     * */
     public static int[] solution(int N, int[] A) {
         int maxValue = 0;
         int minValue = 0;
