@@ -1,5 +1,6 @@
 package com.shihab;
 
+import com.shihab.codility.MaxCounter;
 import com.shihab.complexity.TimeComplexity;
 
 import java.io.*;
@@ -13,7 +14,12 @@ public class Main {
         try {
             //twoDimensionArrayInTabularFormat();
             //TimeComplexity.timeComplexityOfN();
-            TimeComplexity.timeComplexityOfN3();
+            //TimeComplexity.timeComplexityOfN3();
+
+            int[] result = MaxCounter.solution(5, new int[]{3, 4, 4, 6, 1, 4, 4});
+            for (int i : result) {
+                System.out.println(i);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
