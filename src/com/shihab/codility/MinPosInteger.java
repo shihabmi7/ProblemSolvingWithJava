@@ -5,7 +5,6 @@ import java.util.Set;
 
 public class MinPosInteger {
 
-
     /**
      * Find the smallest positive integer that does not occur in a given sequence
      * // For example, given A = [1, 3, 6, 4, 1, 2], the function should return 5.
@@ -34,5 +33,11 @@ public class MinPosInteger {
         }
 
         return A.length + 1;
+    }
+
+    public static void main(String[] args) {
+        MinPosInteger min = new MinPosInteger();
+        int minPositiveInteger = min.solution(new int[]{1, 3, 6, 4, 1, 2});
+        System.out.println(minPositiveInteger);
     }
 }

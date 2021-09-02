@@ -1,11 +1,7 @@
 package com.shihab;
 
-import com.shihab.codility.MaxCounter;
-import com.shihab.codility.MinPosInteger;
-import com.shihab.codility.OddOccurencesInArray;
-import com.shihab.complexity.TimeComplexity;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -17,14 +13,6 @@ public class Main {
             //twoDimensionArrayInTabularFormat();
             //TimeComplexity.timeComplexityOfN();
             //TimeComplexity.timeComplexityOfN3();
-
-            /*int[] result = MaxCounter.solution(5, new int[]{3, 4, 4, 6, 1, 4, 4});
-            for (int i : result) {
-                System.out.println(i);
-            }*/
-
-            //System.out.println(MinPosInteger.solution(new int[]{1, 3, 6, 4, 1, 2}));
-            System.out.println(OddOccurencesInArray.solution(new int[]{9, 3, 9, 3, 9, 7, 9}));
 
         } catch (Exception e) {
             e.printStackTrace();

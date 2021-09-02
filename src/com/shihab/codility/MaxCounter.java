@@ -29,4 +29,10 @@ public class MaxCounter {
         }
         return counters;
     }
+
+    public static void main(String[] args) {
+        MaxCounter maxCounter = new MaxCounter();
+        int[] solution = maxCounter.solution(5, new int[]{3, 4, 4, 6, 1, 4, 4});
+        System.out.println(solution);
+    }
 }
