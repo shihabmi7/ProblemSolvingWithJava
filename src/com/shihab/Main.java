@@ -1,8 +1,9 @@
 package com.shihab;
 
-import com.shihab.complexity.TimeComplexity;
+import com.shihab.search.BinarySearch;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +14,16 @@ public class Main {
         try {
             //twoDimensionArrayInTabularFormat();
             //TimeComplexity.timeComplexityOfN();
-            TimeComplexity.timeComplexityOfN3();
+            //TimeComplexity.timeComplexityOfN3();
+            int arr[] = { 2, 3, 4, 10, 40 };
+            int x = 40;
+            int result = BinarySearch.binarySearch(arr, x);
+            if (result == -1)
+                System.out.println("Element not present");
+            else
+                System.out.println("Element found at "
+                        + "index " + result);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
