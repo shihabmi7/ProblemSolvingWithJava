@@ -4,7 +4,7 @@ public class BinarySearch {
 
     // Returns index of x if it is present in arr[],
     // else return -1
-    public static int binarySearch(int arr[], int desiredValue) {
+    public int binarySearch(int arr[], int desiredValue) {
         int leftPosition = 0, rightPosition = arr.length - 1, midPosition;
         while (leftPosition <= rightPosition) {
             midPosition = (leftPosition + rightPosition) / 2;
@@ -26,5 +26,17 @@ public class BinarySearch {
         // if we reach here, then element was
         // not present
         return -1;
+    }
+
+    public static void main(String[] args) {
+        BinarySearch search= new BinarySearch();
+        int arr[] = { 2, 3, 4, 10, 40 };
+        int x = 40;
+        int result = search.binarySearch(arr, x);
+        if (result == -1)
+            System.out.println("Element not present");
+        else
+            System.out.println("Element found at "
+                    + "index " + result);
     }
 }

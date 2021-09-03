@@ -15,14 +15,6 @@ public class Main {
             //twoDimensionArrayInTabularFormat();
             //TimeComplexity.timeComplexityOfN();
             //TimeComplexity.timeComplexityOfN3();
-            int arr[] = { 2, 3, 4, 10, 40 };
-            int x = 40;
-            int result = BinarySearch.binarySearch(arr, x);
-            if (result == -1)
-                System.out.println("Element not present");
-            else
-                System.out.println("Element found at "
-                        + "index " + result);
 
         } catch (Exception e) {
             e.printStackTrace();
