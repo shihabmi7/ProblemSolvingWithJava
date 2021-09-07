@@ -18,7 +18,7 @@ public class TriangleTiplet {
     }
 
     public static void main(String[] args) {
-        NumberOfDiscIntersection number = new NumberOfDiscIntersection();
+        TriangleTiplet number = new TriangleTiplet();
         System.out.println(number.solution(new int[]{10, 2, 5, 1, 8, 20}));
         //System.out.println(number.solution(new int[]{10, 2, 5, 1, 8, 20}));
     }
