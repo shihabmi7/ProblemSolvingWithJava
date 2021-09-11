@@ -1,7 +1,5 @@
 package com.shihab.codility;
 
-import java.util.HashMap;
-
 public class EquiLeader {
 
     public int solution(int[] A) {

@@ -3,6 +3,7 @@ package com.shihab.codility;
 import java.util.Stack;
 
 public class Fish {
+    /** Find the count of survival fish*/
 
     public int solution(int[] A, int[] B) {
         Stack<Integer> stack = new Stack<>();
@@ -27,12 +28,12 @@ public class Fish {
                 stack.push(fish);
             }
         }
-        survivals+= stack.size();
+        survivals += stack.size();
         return survivals;
     }
 
     public static void main(String[] args) {
         Fish aFish = new Fish();
-        System.out.println(aFish.solution(new int[]{4,3,2,1,5}, new int[]{0,1,0,0,0}));
+        System.out.println(aFish.solution(new int[]{4, 3, 2, 1, 5}, new int[]{0, 1, 0, 0, 0}));
     }
 }
