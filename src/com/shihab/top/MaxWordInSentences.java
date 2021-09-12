@@ -9,12 +9,12 @@ public class MaxWordInSentences {
             return 0;
         }
 
-        String[] words = S.split("\\.");
+        String[] sentence = S.split("\\.");
         int maxNumberOfWord = Integer.MIN_VALUE;
 
-        for (int i = 0; i < words.length; i++) {
-            String[] currentSentence  = words[i].split("\\s+");
-            String[] clean = Arrays.stream(currentSentence)
+        for (int i = 0; i < sentence.length; i++) {
+            String[] words  = sentence[i].split("\\s+");
+            String[] clean = Arrays.stream(words)
                     .map(String::trim)
                     .filter(Predicate.isEqual("").negate())
                     .toArray(String[]::new);
