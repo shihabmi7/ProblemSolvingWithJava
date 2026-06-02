@@ -1,0 +1,26 @@
+# Compiled output
+out/
+bin/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+target/
+.gradle/
+build/
+
+# Other
+*.log
