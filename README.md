@@ -1,6 +1,6 @@
 # Problem Solving with Java
 
-A comprehensive Java repository focused on **Problem Solving**, **Object-Oriented Programming (OOP)**, and **Design Pattern Implementation**. This repository contains practical, production-ready code examples and implementations.
+A comprehensive Java repository focused on **Problem Solving**, **Object-Oriented Programming (OOP)**, and **Design Pattern Implementation**. This repository contains practical, production-ready code examples.
 
 ## 📚 Repository Overview
 
@@ -9,7 +9,7 @@ This is a learning and reference resource for developers looking to understand a
 - Object-Oriented Programming Principles
 - Time & Space Complexity Analysis
 - Problem-Solving Techniques
-- SOLID Principles *(coming soon)*
+- SOLID Principles
 
 ---
 
@@ -21,6 +21,7 @@ ProblemSolvingWithJava/
 │   ├── Main.java                    # Entry point with utility methods
 │   ├── patterns/                    # Design Pattern implementations
 │   ├── oop/                         # OOP principles examples
+│   ├── solid/                       # SOLID Principles implementations
 │   ├── complexity/                  # Time & Space Complexity analysis
 │   ├── search/                      # Search algorithms
 │   ├── codility/                    # Codility problem solutions
@@ -28,6 +29,7 @@ ProblemSolvingWithJava/
 │   ├── problem_solving/             # General problem-solving techniques
 │   ├── general/                     # General Java utilities
 │   └── top/                         # Top problems & algorithms
+├── .gitignore                       # Git ignore file for build artifacts
 ├── README.md                        # This file
 └── ...
 ```
@@ -126,7 +128,49 @@ Practical demonstrations of OOP principles:
 
 ---
 
-### 3️⃣ **Algorithms & Problem-Solving**
+### 3️⃣ **SOLID Principles** (`solid/`)
+
+Comprehensive implementations of all five SOLID principles with practical examples and best practices.
+
+#### **S - Single Responsibility Principle**
+- [**S_SingleResponsibility.java**](src/com/shihab/solid/S_SingleResponsibility.java)
+  - A class should have only one reason to change
+  - Demonstrates separation of concerns
+  - Examples of violation and correction
+
+#### **O - Open/Closed Principle**
+- [**O_OpenClosed.java**](src/com/shihab/solid/O_OpenClosed.java)
+  - Software entities should be open for extension but closed for modification
+  - Shows how to use abstraction and polymorphism
+  - Enables easy addition of new functionality
+
+#### **L - Liskov Substitution Principle**
+- [**L_LiskovSubstitution.java**](src/com/shihab/solid/L_LiskovSubstitution.java)
+  - Subtypes must be substitutable for their base types
+  - Demonstrates proper inheritance hierarchy
+  - Ensures behavioral consistency
+
+#### **I - Interface Segregation Principle**
+- [**I_InterfaceSegregation.java**](src/com/shihab/solid/I_InterfaceSegregation.java)
+  - Clients should not be forced to depend on interfaces they don't use
+  - Shows how to design focused, cohesive interfaces
+  - Reduces coupling between components
+
+#### **D - Dependency Inversion Principle**
+- [**D_DependencyInversion.java**](src/com/shihab/solid/D_DependencyInversion.java)
+  - High-level modules should not depend on low-level modules
+  - Both should depend on abstractions
+  - Demonstrates dependency injection patterns
+
+#### **Overview & Guide**
+- [**SOLIDPrinciplesOverview.java**](src/com/shihab/solid/SOLIDPrinciplesOverview.java)
+  - Comprehensive overview of all SOLID principles
+  - Real-world examples and use cases
+  - Best practices and anti-patterns
+
+---
+
+### 4️⃣ **Algorithms & Problem-Solving**
 
 #### **Search Algorithms** (`search/`)
 - [**BinarySearch**](src/com/shihab/search/BinarySearch.java) - Efficient search in sorted arrays
@@ -143,20 +187,6 @@ Practical demonstrations of OOP principles:
 
 #### **General Problem-Solving** (`problem_solving/`)
 - Various algorithmic techniques and solutions
-
----
-
-### 4️⃣ **SOLID Principles** (`solid/`) - *Coming Soon*
-
-The repository plans to include comprehensive examples for:
-
-- **S** - Single Responsibility Principle
-- **O** - Open/Closed Principle
-- **L** - Liskov Substitution Principle
-- **I** - Interface Segregation Principle
-- **D** - Dependency Inversion Principle
-
-Each principle will have practical examples and violations/corrections.
 
 ---
 
@@ -179,6 +209,16 @@ Each principle will have practical examples and violations/corrections.
 - Singleton patterns for shared resources
 - Builder patterns for complex objects
 - Inheritance hierarchy demonstrations
+- All five SOLID principles implemented
+
+### 🛠️ Build Management
+- `.gitignore` configured to exclude:
+  - `out/` folder (compiled output)
+  - `bin/` folder (build artifacts)
+  - `*.class`, `*.jar`, `*.war`, `*.ear` files
+  - IDE settings (`.idea/`, `.vscode/`)
+  - OS-specific files
+  - Build directories
 
 ---
 
@@ -197,9 +237,10 @@ cd ProblemSolvingWithJava
 
 ### Explore the Code
 1. Start with [Main.java](src/com/shihab/Main.java) for entry points
-2. Navigate to `patterns/` for design pattern implementations
-3. Check `oop/` for OOP principles
-4. Review individual algorithms in their respective folders
+2. Navigate to `solid/` for SOLID principles implementations
+3. Check `patterns/` for design pattern implementations
+4. Review `oop/` for OOP principles
+5. Study individual algorithms in their respective folders
 
 ### Compile & Run
 ```bash
@@ -208,6 +249,9 @@ javac -d bin src/com/shihab/**/*.java
 
 # Run specific class
 java -cp bin com.shihab.patterns.DemoSingleton
+
+# Run SOLID principles overview
+java -cp bin com.shihab.solid.SOLIDPrinciplesOverview
 ```
 
 ---
@@ -225,7 +269,9 @@ java -cp bin com.shihab.patterns.DemoSingleton
 3. Complexity Analysis (`complexity/`)
 
 ### Advanced Level
-1. SOLID Principles *(coming soon)*
+1. SOLID Principles (`solid/`)
+   - Start with [SOLIDPrinciplesOverview.java](src/com/shihab/solid/SOLIDPrinciplesOverview.java)
+   - Then explore each principle individually
 2. Composite patterns
 3. Advanced problem-solving techniques
 
@@ -248,14 +294,16 @@ This repository follows:
 - **Language**: Java 8+
 - **Paradigms**: Object-Oriented, Functional
 - **Design Patterns**: Gang of Four
+- **Principles**: SOLID
 - **Problem Platforms**: LeetCode, HackerRank, Codility
+- **Version Control**: Git with `.gitignore` for clean repository
 
 ---
 
 ## 📊 Repository Statistics
 
 - **Language**: 100% Java
-- **Focus Areas**: Design Patterns, OOP, Problem Solving
+- **Focus Areas**: Design Patterns, OOP, SOLID Principles, Problem Solving
 - **Use Case**: Learning, Reference, Production Code
 
 ---
@@ -315,7 +363,7 @@ After exploring this repository, you will understand:
 ✅ Thread-safe singleton implementations
 ✅ Fluent interface and builder patterns
 ✅ Best practices for production code
-✅ SOLID principles *(coming soon)*
+✅ All five SOLID principles and practical implementations
 
 ---
 
