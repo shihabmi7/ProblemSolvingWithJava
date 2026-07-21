@@ -5,6 +5,16 @@ General concepts that apply across all relational databases (MySQL, PostgreSQL, 
 ## 1. What is a relational database?
 A database that stores data in tables (rows and columns) where relationships between tables are defined using keys (primary key, foreign key). Data integrity is enforced through constraints, and data is queried using SQL.
 
+**A bit more on "constraints":** these are rules attached directly to a table's columns that the database itself enforces on every write — so bad data gets rejected at insert/update time, no matter which application or query is doing the writing.
+
+The common ones: `NOT NULL` (a value must always be provided), `UNIQUE` (no two rows can share this value), `PRIMARY KEY` (unique + not null, identifies the row), `FOREIGN KEY` (a value must actually exist in another table), `CHECK` (a custom condition, e.g. balance can't go negative), and `DEFAULT` (a value used automatically if none is given).
+
+`FOREIGN KEY` is the one worth pausing on here, since it's what makes the "relationships between tables" part of this answer actually enforced, not just implied.
+
+This is why constraints matter for "relational" specifically: without them, the keys linking your tables together are just conventions you *hope* every piece of code respects. With them, the database refuses any write that would break the relationship.
+
+See Q20 for a full worked example on an `accounts` table using all of these together.
+
 ## 2. What is a primary key?
 A column (or set of columns) that uniquely identifies each row in a table. It cannot be NULL and must be unique.
 
@@ -288,6 +298,10 @@ CREATE INDEX idx_customer_name ON accounts (customer_name);
 ```
 
 `SELECT * FROM accounts WHERE account_id = 12345` is fast because the table itself is stored in `account_id` order — the engine jumps straight to the right physical location. `SELECT * FROM accounts WHERE customer_name = 'Alice'` uses the separate `idx_customer_name` index, which stores `customer_name` values sorted along with a pointer back to the actual row — one extra hop, but still far faster than scanning every row.
+
+**Note — this behaves differently per database, and it's a common gotcha:**
+- **MySQL (InnoDB)** and **SQL Server**: you don't create the clustered index yourself — declaring `PRIMARY KEY` creates it automatically (InnoDB falls back to the first `UNIQUE NOT NULL` column, or a hidden internal row ID, if there's no primary key). SQL Server also lets you override this with `PRIMARY KEY NONCLUSTERED` and put the clustered index on a different column instead.
+- **PostgreSQL doesn't really have this concept.** Tables are stored as an unordered heap regardless of the primary key. Postgres does have a `CLUSTER` command (`CLUSTER accounts USING accounts_pkey;`) that physically reorders the table to match an index — but only **once**, at the moment you run it. New inserts/updates aren't kept in that order automatically, so the physical ordering drifts again over time unless you periodically re-run `CLUSTER`, which most teams don't bother doing. So in Postgres, `account_id BIGINT PRIMARY KEY` still gives you a fast, sorted **index** lookup — it just doesn't mean the table's physical storage is kept in that order the way InnoDB guarantees.
 
 ## 13. What is a stored procedure? What is a trigger?
 A **stored procedure** is precompiled SQL logic stored in the database, callable by name. A **trigger** is code that automatically executes in response to an event (INSERT/UPDATE/DELETE) on a table.
