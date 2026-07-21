@@ -304,7 +304,23 @@ BEGIN
     UPDATE accounts SET balance = balance + amount WHERE account_id = to_acct;
     COMMIT;
 END;
+```
 
+**Calling it from application code — it's not a file, it's a database object you call over the same connection you already use for queries.** In a Spring Boot app (see `src/com/shihab/springboot`), Spring Data JPA can call it directly from a repository method with `@Procedure`, the same way `EmployeeRepository` declares derived query methods:
+
+```java
+public interface AccountRepository extends JpaRepository<Account, Long> {
+
+    @Procedure(procedureName = "transfer_funds")
+    void transferFunds(@Param("from_acct") String fromAccount,
+                        @Param("to_acct") String toAccount,
+                        @Param("amount") BigDecimal amount);
+}
+```
+
+Calling `accountRepository.transferFunds("A", "B", new BigDecimal("100"))` from a service method then runs the exact same `CALL transfer_funds('A', 'B', 100)` under the hood — no raw JDBC or native query boilerplate needed.
+
+```sql
 -- balance_audit also records *who* made the change, not just what changed —
 -- important for fraud investigation and dispute resolution, not just
 -- reconstructing values.
@@ -328,6 +344,60 @@ VALUES (OLD.account_id, OLD.balance, NEW.balance, CURRENT_USER(), NOW());
 Every time any code updates a row in `accounts` — whether via the stored procedure, an app, or a manual query — the trigger fires and writes an audit row, so the bank always has a change history without every caller having to remember to log it.
 
 **Note on `changed_by`:** `CURRENT_USER()` only gives you the *database* login (e.g. `app_service`), which is often the same shared connection for every request from your application — not the actual bank employee or customer who triggered it. To capture the real end-user, the application typically sets a session variable before running the update (e.g. `SET @app_user_id = 'employee_42'` in MySQL, or `SET LOCAL app.user_id = 'employee_42'` in PostgreSQL) and the trigger reads that instead of `CURRENT_USER()`. Worth mentioning in an interview if asked "how do you know *who* made a change" — the DB-level username usually isn't enough on its own.
+
+**PostgreSQL note — the trigger above is simplified/MySQL-style.** PostgreSQL doesn't let you write the trigger body inline like that; it requires a separate trigger *function* that the trigger calls, and reads the custom session variable (see the earlier `app.user_id` question) via `current_setting()` instead of `CURRENT_USER()`. The full, real flow:
+
+```sql
+-- 1. Trigger function: the actual logic PostgreSQL requires triggers to call.
+CREATE OR REPLACE FUNCTION log_balance_change_fn() RETURNS TRIGGER AS $$
+BEGIN
+    INSERT INTO balance_audit (account_id, old_balance, new_balance, changed_by, changed_at)
+    VALUES (
+        OLD.account_id,
+        OLD.balance,
+        NEW.balance,
+        current_setting('app.user_id', true), -- true = return NULL instead of erroring if unset
+        NOW()
+    );
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 2. The trigger itself just wires the event to that function.
+CREATE TRIGGER log_balance_change
+AFTER UPDATE ON accounts
+FOR EACH ROW
+EXECUTE FUNCTION log_balance_change_fn();
+```
+
+```sql
+-- 3. The application must set app.user_id in the *same transaction*,
+-- before the UPDATE, so it's visible when the trigger fires.
+BEGIN;
+SET LOCAL app.user_id = 'employee_42';
+UPDATE accounts SET balance = balance - 100 WHERE account_id = 'A';  -- trigger fires here
+COMMIT;                                                              -- SET LOCAL resets automatically
+```
+
+In a Spring Boot service (see `src/com/shihab/springboot`), step 3 means issuing that `SET LOCAL` as a native query at the start of the same `@Transactional` method that performs the update, so JPA keeps both statements on one connection:
+
+```java
+@Transactional
+public EmployeeDTO updateEmployee(Long id, EmployeeDTO dto) {
+    entityManager.createNativeQuery("SET LOCAL app.user_id = :userId")
+                 .setParameter("userId", getCurrentUserId())
+                 .executeUpdate();
+    // ...rest of the update — same transaction, same DB connection
+}
+```
+
+If `SET LOCAL` and the `UPDATE` ran on different pooled connections, `current_setting('app.user_id', true)` would come back `NULL` — the setting doesn't travel with the request, only with the connection/transaction it was set on.
+
+**Note on where trigger code actually lives:** a trigger is a two-sided thing.
+- **Inside the database**, `CREATE TRIGGER` registers it as a database object in the engine's system catalog (`information_schema.triggers` in MySQL, `pg_trigger`/`\dy` in PostgreSQL) — it's not a file, and it fires automatically forever until someone runs `DROP TRIGGER`.
+- **In your codebase**, the *source* of that `CREATE TRIGGER` statement should still be tracked in version control — otherwise nobody can see it in code review or know it exists without inspecting the live database. In practice this means a versioned schema-migration file (e.g. Flyway's `V12__add_balance_audit_trigger.sql`, Liquibase, Rails/Django migrations), not something typed once into a DB client and forgotten. For a Spring Boot app with Flyway, that'd be `resources/db/migration/`.
+
+This "invisible unless version-controlled" nature is itself one of the real downsides teams cite when choosing application-level logic over triggers.
 
 ## 14. What is the difference between DELETE, TRUNCATE, and DROP?
 - **DELETE**: removes rows (can filter with WHERE), logged, can be rolled back, triggers fire.
