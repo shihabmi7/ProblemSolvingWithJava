@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.shihab'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+// The rest of this repo keeps everything under a flat `src/` folder instead
+// of the Maven/Gradle default `src/main/java`, so we point Gradle's source
+// sets at the existing layout rather than moving ~100 existing files.
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    runtimeOnly 'com.h2database:h2'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// Only the Spring Boot demo has a real entry point today, so tell the
+// bootJar/bootRun tasks which class to launch.
+springBoot {
+    mainClass = 'com.shihab.springboot.SpringBootInterviewApplication'
+}
+
+test {
+    useJUnitPlatform()
+}
